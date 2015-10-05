@@ -1,0 +1,76 @@
+{{set . "title" "Csr"}}
+{{template "header.html" .}}
+
+<header class="hero-unit" style="background-color:#A9F16C">
+  <div class="container">
+    <div class="row">
+      <div class="hero-text">
+        <h1>Csr</h1>
+        <p></p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="span6">
+      {{template "flash.html" .}}
+    </div>
+	
+	<div>
+		<table class="table">
+			<tr>
+				<th>ID</th>
+				<td>{{$.csr.ID}}</td>
+			</tr>
+			<tr>
+				<th>Created At</th>
+				<td>{{$.csr.CreatedAt.Local}}</td>
+			</tr>
+			<tr>
+				<th>Key Bits</th>
+				<td>{{$.csr.KeyBits}}</td>
+			</tr>
+			<tr>
+				<th>Csr Algorithm</th>
+				<td>{{$.csr.CsrAlgorithm}}</td>
+			</tr>
+			<tr>
+				<th>Country</th>
+				<td>{{$.csr.Country}}</td>
+			</tr>
+			<tr>
+				<th>State</th>
+				<td>{{$.csr.State}}</td>
+			</tr>
+			<tr>
+				<th>Locality</th>
+				<td>{{$.csr.Locality}}</td>
+			</tr>
+			<tr>
+				<th>Organizational Name</th>
+				<td>{{$.csr.OrganizationalName}}</td>
+			</tr>
+			<tr>
+				<th>Organizational Unit</th>
+				<td>{{$.csr.OrganizationalUnit}}</td>
+			</tr>
+			<tr>
+				<th>Common Name</th>
+				<td>{{$.csr.CommonName}}</td>
+			</tr>
+			<tr>
+				<th>Server Key</th>
+				<td><textarea class="form-control"  rows="10" readonly="readonly" style="width: 600px;">{{$.csr.PrivString}}</textarea></td>
+			</tr>
+			<tr>
+				<th>Csr</th>
+				<td><textarea class="form-control"  rows="10"  readonly="readonly" style="width: 600px;">{{$.csr.CsrString}}</textarea></td>
+			</tr>
+		</table>
+	</div>
+  </div>
+</div>
+
+{{template "footer.html" .}}

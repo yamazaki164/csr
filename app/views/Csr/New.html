@@ -1,0 +1,98 @@
+{{set . "title" "Csr"}}
+{{template "header.html" .}}
+
+<header class="hero-unit" style="background-color:#A9F16C">
+  <div class="container">
+    <div class="row">
+      <div class="hero-text">
+        <h1>Csr</h1>
+        <p></p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="span6">
+      {{template "flash.html" .}}
+    </div>
+	
+	<form class="form-control" method="post" action="{{url "Csr.Create"}}">
+		<table class="table">
+			<tr>
+				<th>Key Bits</th>
+				<td>
+				{{with $field := field "csr.KeyBits" .}}
+				<label>{{radio $field "2048"}}&nbsp;2048</label>
+				{{end}}
+				</td>
+			</tr>
+			<tr>
+				<th>Csr Algorithm</th>
+				<td>
+				{{with $field := field "csr.CsrAlgorithm" .}}
+				<label>{{radio $field "sha256"}}&nbsp;sha256</label>
+				<label>{{radio $field "sha1"}}&nbsp;sha1</label>
+				{{end}}
+				</td>
+			</tr>
+			<tr>
+				<th>Country</th>
+				<td>
+				{{with $field := field "csr.Country" .}}
+				<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" placeholder="JP" />
+				{{end}}
+				</td>
+			</tr>
+			<tr>
+				<th>State</th>
+				<td>
+				{{with $field := field "csr.State" .}}
+				<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" placeholder="Tokyo"  />
+				{{end}}
+				</td>
+			</tr>
+			<tr>
+				<th>Locality</th>
+				<td>
+				{{with $field := field "csr.Locality" .}}
+				<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" placeholder="Meguro-ku" />
+				{{end}}
+				</td>
+			</tr>
+			<tr>
+				<th>Organizational Name</th>
+				<td>
+				{{with $field := field "csr.OrganizationalName" .}}
+				<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" />
+				{{end}}
+				</td>
+			</tr>
+			<tr>
+				<th>Organizational Unit</th>
+				<td>
+				{{with $field := field "csr.OrganizationalUnit" .}}
+				<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" />
+				{{end}}
+				</td>
+			</tr>
+			<tr>
+				<th>Common Name</th>
+				<td>
+				{{with $field := field "csr.CommonName" .}}
+				<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" placeholder="www.example.com" />
+				{{end}}
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="submit" class="btn btn-primary" />
+				</td>
+			</tr>
+		</table>
+	</form>
+  </div>
+</div>
+
+{{template "footer.html" .}}
