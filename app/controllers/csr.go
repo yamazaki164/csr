@@ -63,3 +63,22 @@ func (this *Csr) Delete(id uint) revel.Result {
 	this.Flash.Success("Delete success")
 	return this.Redirect(routes.Csr.Index())
 }
+
+func (this *Csr) Dec() revel.Result {
+
+	if this.Request.Method == "POST" {
+		csr := this.Params.Get("csr")
+		dec := models.NewCsrDec(csr)
+
+		dec.Parse()
+		this.RenderArgs["is_error"] = dec.IsError
+		if dec.IsError {
+			this.RenderArgs["subject"] = nil
+		} else {
+			this.RenderArgs["subject"] = dec.ParsedCsr.Subject
+
+		}
+	}
+
+	return this.Render()
+}

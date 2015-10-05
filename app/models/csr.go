@@ -11,6 +11,14 @@ import (
 	"time"
 )
 
+const (
+	PRIVATE_KEY_PREFIX = "-----BEGIN RSA PRIVATE KEY-----"
+	PRIVATE_KEY_SUFFIX = "-----END RSA PRIVATE KEY-----"
+
+	CSR_PREFIX = "-----BEGIN CERTIFICATE REQUEST-----"
+	CSR_SUFFIX = "-----END CERTIFICATE REQUEST-----"
+)
+
 type Csr struct {
 	ID                 uint `gorm:"primary_key"`
 	KeyBits            int
@@ -81,7 +89,7 @@ func (this *Csr) ToPrivateKey() {
 	this.priv_rsa, _ = rsa.GenerateKey(rand.Reader, this.KeyBits)
 	this.priv = x509.MarshalPKCS1PrivateKey(this.priv_rsa)
 
-	this.PrivString = "-----BEGIN RSA PRIVATE KEY-----\n" + this.key_to(this.priv) + "\n-----END RSA PRIVATE KEY-----"
+	this.PrivString = PRIVATE_KEY_PREFIX + "\n" + this.key_to(this.priv) + "\n" + PRIVATE_KEY_SUFFIX
 }
 
 func (this *Csr) ToCsr() {
@@ -117,7 +125,7 @@ func (this *Csr) ToCsr() {
 
 	this.csr, _ = x509.CreateCertificateRequest(rand.Reader, data, this.priv_rsa)
 
-	this.CsrString = "-----BEGIN CERTIFICATE REQUEST-----\n" + this.key_to(this.csr) + "\n-----END CERTIFICATE REQUEST-----"
+	this.CsrString = CSR_PREFIX + "\n" + this.key_to(this.csr) + "\n" + CSR_SUFFIX
 }
 
 func (this *Csr) BeforeCreate() {

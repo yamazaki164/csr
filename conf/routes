@@ -7,6 +7,8 @@ module:testrunner
 GET     /                                       Csr.Index
 GET		/new									Csr.New
 POST	/create									Csr.Create
+GET		/dec									Csr.Dec
+POST	/dec									Csr.Dec
 GET		/:id									Csr.Show
 POST	/:id/delete								Csr.Delete
 
