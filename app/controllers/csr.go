@@ -29,13 +29,13 @@ func (this *Csr) Create(csr *models.Csr) revel.Result {
 		this.Validation.Keep()
 		this.FlashParams()
 
-		this.Flash.Error("Create Error")
+		this.Flash.Error("Create error")
 		return this.Redirect(routes.Csr.New())
 	}
 
 	this.Dbm().Connection().Save(csr)
 
-	this.Flash.Success("Create")
+	this.Flash.Success("Create success")
 	return this.Redirect(routes.Csr.Show(csr.ID))
 }
 
@@ -48,4 +48,18 @@ func (this *Csr) Show(id uint) revel.Result {
 	}
 
 	return this.Render(csr)
+}
+
+func (this *Csr) Delete(id uint) revel.Result {
+	var csr models.Csr
+	this.Dbm().Connection().Where("id = ?", id).First(&csr)
+	if csr.ID == 0 {
+		this.Flash.Error("Delete error")
+		return this.Redirect(routes.Csr.Index())
+	}
+
+	this.Dbm().Connection().Delete(&csr)
+
+	this.Flash.Success("Delete success")
+	return this.Redirect(routes.Csr.Index())
 }

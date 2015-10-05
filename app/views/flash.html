@@ -1,18 +1,20 @@
-{{if .flash.success}}
-<div class="alert alert-success">
-	{{.flash.success}}
-</div>
-{{end}}
-
-{{if or .errors .flash.error}}
-<div class="alert alert-error">
-	{{if .flash.error}}
-		{{.flash.error}}
+<div>
+	{{if .flash.success}}
+	<div class="alert alert-success">
+		{{.flash.success}}
+	</div>
 	{{end}}
-	<ul style="margin-top:10px;">
-		{{range .errors}}
-			<li>{{.}}</li>
+	
+	{{if or .errors .flash.error}}
+	<div class="alert alert-error">
+		{{if .flash.error}}
+			{{.flash.error}}
 		{{end}}
-	</ul>
+		<ul style="margin-top:10px;">
+			{{range .errors}}
+				<li>{{.}}</li>
+			{{end}}
+		</ul>
+	</div>
+	{{end}}
 </div>
-{{end}}

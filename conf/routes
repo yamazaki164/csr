@@ -8,6 +8,7 @@ GET     /                                       Csr.Index
 GET		/new									Csr.New
 POST	/create									Csr.Create
 GET		/:id									Csr.Show
+POST	/:id/delete								Csr.Delete
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

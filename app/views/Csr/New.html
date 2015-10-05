@@ -1,27 +1,18 @@
 {{set . "title" "Csr"}}
 {{template "header.html" .}}
 
-<header class="hero-unit" style="background-color:#A9F16C">
-  <div class="container">
-    <div class="row">
-      <div class="hero-text">
-        <h1>Csr</h1>
-        <p></p>
-      </div>
-    </div>
-  </div>
-</header>
+{{template "nav.html" .}}
 
 <div class="container">
   <div class="row">
-    <div class="span6">
-      {{template "flash.html" .}}
-    </div>
+	<h1>New</h1>
+
+    {{template "flash.html" .}}
 	
 	<form class="form-control" method="post" action="{{url "Csr.Create"}}">
 		<table class="table">
 			<tr>
-				<th>Key Bits</th>
+				<th>Key Bits<span class="msut">*</span></th>
 				<td>
 				{{with $field := field "csr.KeyBits" .}}
 				<label>{{radio $field "2048"}}&nbsp;2048</label>
@@ -29,7 +20,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>Csr Algorithm</th>
+				<th>Csr Algorithm<span class="msut">*</span></th>
 				<td>
 				{{with $field := field "csr.CsrAlgorithm" .}}
 				<label>{{radio $field "sha256"}}&nbsp;sha256</label>
@@ -38,7 +29,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>Country</th>
+				<th>Country<span class="msut">*</span></th>
 				<td>
 				{{with $field := field "csr.Country" .}}
 				<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" placeholder="JP" />
@@ -46,7 +37,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>State</th>
+				<th>State<span class="msut">*</span></th>
 				<td>
 				{{with $field := field "csr.State" .}}
 				<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" placeholder="Tokyo"  />
@@ -54,7 +45,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>Locality</th>
+				<th>Locality<span class="msut">*</span></th>
 				<td>
 				{{with $field := field "csr.Locality" .}}
 				<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" placeholder="Meguro-ku" />
@@ -62,7 +53,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>Organizational Name</th>
+				<th>Organizational Name<span class="msut">*</span></th>
 				<td>
 				{{with $field := field "csr.OrganizationalName" .}}
 				<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" />
@@ -78,7 +69,7 @@
 				</td>
 			</tr>
 			<tr>
-				<th>Common Name</th>
+				<th>Common Name<span class="msut">*</span></th>
 				<td>
 				{{with $field := field "csr.CommonName" .}}
 				<input type="text" name="{{$field.Name}}" value="{{$field.Flash}}" placeholder="www.example.com" />
@@ -87,7 +78,7 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<input type="submit" class="btn btn-primary" />
+					<button type="submit" class="btn btn-primary">Submit</button>
 				</td>
 			</tr>
 		</table>

@@ -1,22 +1,13 @@
 {{set . "title" "Csr"}}
 {{template "header.html" .}}
 
-<header class="hero-unit" style="background-color:#A9F16C">
-  <div class="container">
-    <div class="row">
-      <div class="hero-text">
-        <h1>Csr</h1>
-        <p></p>
-      </div>
-    </div>
-  </div>
-</header>
+{{template "nav.html" .}}
 
 <div class="container">
   <div class="row">
-    <div class="span6">
-      {{template "flash.html" .}}
-    </div>
+	<h1>CSR</h1>
+	
+    {{template "flash.html" .}}
 	
 	<div>
 		<a class="btn btn-primary" href="{{url "Csr.New"}}">New</a>
@@ -28,12 +19,18 @@
 			<th>ID</th>
 			<th>Common Name</th>
 			<th>Created At</th>
+			<th></th>
 		</tr>
 		{{range $i, $csr := $.csrs}}
 		<tr>
 			<td>{{$csr.ID}}</td>
 			<td><a href="{{url "Csr.Show" $csr.ID}}">{{$csr.CommonName}}</a></td>
 			<td>{{$csr.CreatedAt.Local}}</td>
+			<td>
+			<form action="{{url "Csr.Delete" $csr.ID}}" method="post">
+				<button type="submit" class="btn btn-primary">Delete</button>
+			</form>
+			</td>
 		</tr>
 		{{end}}
 	</table>
