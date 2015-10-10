@@ -1,4 +1,4 @@
-# Welcome to Revel
+# Welcome to CSR
 
 ## Getting Started
 
@@ -6,7 +6,7 @@ A high-productivity web framework for the [Go language](http://www.golang.org/).
 
 ### Start the web server:
 
-    revel run myapp
+    revel run csr
 
    Run with <tt>--help</tt> for options.
 
@@ -18,7 +18,7 @@ A high-productivity web framework for the [Go language](http://www.golang.org/).
 
 The default directory structure of a generated Revel application:
 
-    myapp               App root
+    csr               App root
       app               App sources
         controllers     App controllers
           init.go       Interceptor registration
