@@ -29,7 +29,7 @@ type Csr struct {
 	OrganizationalName string
 	OrganizationalUnit string
 	CommonName         string
-	priv_rsa           *rsa.PrivateKey `sql:"-"`
+	privRsa            *rsa.PrivateKey `sql:"-"`
 	priv               []byte          `sql:"-"`
 	csr                []byte          `sql:"-"`
 	PrivString         string          `sql:"type:text"`
@@ -41,6 +41,7 @@ type Csr struct {
 
 func (this *Csr) SetValidations(v *revel.Validation) {
 	v.Required(this.KeyBits).Message("KeyBits required")
+	v.Required(this.KeyBits == 2048).Message("KeyBits not match")
 
 	v.Required(this.CsrAlgorithm).Message("CsrAlgorithm required")
 	v.Match(this.CsrAlgorithm, regexp.MustCompile("^sha(1|256)$")).Message("CsrAlgorithm not match")
@@ -49,23 +50,23 @@ func (this *Csr) SetValidations(v *revel.Validation) {
 	v.Match(this.Country, regexp.MustCompile("^[A-Z]{2}$")).Message("Country not match")
 
 	v.Required(this.State).Message("State required")
-	v.Match(this.State, regexp.MustCompile("^[a-zA-Z-_]+$")).Message("State not match")
+	v.Match(this.State, regexp.MustCompile("^[a-zA-Z\\-_]+$")).Message("State not match")
 
 	v.Required(this.Locality).Message("Locality required")
-	v.Match(this.Locality, regexp.MustCompile("^[a-zA-Z-_]+$")).Message("Locality not match")
+	v.Match(this.Locality, regexp.MustCompile("^[a-zA-Z\\-_]+$")).Message("Locality not match")
 
 	v.Required(this.OrganizationalName).Message("OrganizationalName required")
-	v.Match(this.OrganizationalName, regexp.MustCompile("^[a-zA-Z0-9-_,. ]+$")).Message("OrganizationalName not match")
+	v.Match(this.OrganizationalName, regexp.MustCompile("^[a-zA-Z0-9\\-_,\\. ]+$")).Message("OrganizationalName not match")
 
 	if len(this.OrganizationalUnit) > 0 {
-		v.Match(this.OrganizationalUnit, regexp.MustCompile("^[a-zA-Z0-9-_,. ]+$")).Message("OrganizationalUnit not match")
+		v.Match(this.OrganizationalUnit, regexp.MustCompile("^[a-zA-Z0-9\\-_,\\. ]+$")).Message("OrganizationalUnit not match")
 	}
 
 	v.Required(this.CommonName).Message("CommonName required")
-	v.Match(this.CommonName, regexp.MustCompile("^[a-z.-_*]+$")).Message("CommonName not match")
+	v.Match(this.CommonName, regexp.MustCompile("^[a-z0-9\\.\\-\\*]+$")).Message("CommonName not match")
 }
 
-func (this *Csr) key_to(data []byte) string {
+func (this *Csr) keyTo(data []byte) string {
 	ret := base64.StdEncoding.EncodeToString(data)
 
 	var seplen int = 64
@@ -86,10 +87,10 @@ func (this *Csr) key_to(data []byte) string {
 }
 
 func (this *Csr) ToPrivateKey() {
-	this.priv_rsa, _ = rsa.GenerateKey(rand.Reader, this.KeyBits)
-	this.priv = x509.MarshalPKCS1PrivateKey(this.priv_rsa)
+	this.privRsa, _ = rsa.GenerateKey(rand.Reader, this.KeyBits)
+	this.priv = x509.MarshalPKCS1PrivateKey(this.privRsa)
 
-	this.PrivString = PRIVATE_KEY_PREFIX + "\n" + this.key_to(this.priv) + "\n" + PRIVATE_KEY_SUFFIX
+	this.PrivString = PRIVATE_KEY_PREFIX + "\n" + this.keyTo(this.priv) + "\n" + PRIVATE_KEY_SUFFIX
 }
 
 func (this *Csr) ToCsr() {
@@ -123,9 +124,9 @@ func (this *Csr) ToCsr() {
 
 	data.Signature = this.priv
 
-	this.csr, _ = x509.CreateCertificateRequest(rand.Reader, data, this.priv_rsa)
+	this.csr, _ = x509.CreateCertificateRequest(rand.Reader, data, this.privRsa)
 
-	this.CsrString = CSR_PREFIX + "\n" + this.key_to(this.csr) + "\n" + CSR_SUFFIX
+	this.CsrString = CSR_PREFIX + "\n" + this.keyTo(this.csr) + "\n" + CSR_SUFFIX
 }
 
 func (this *Csr) BeforeCreate() {
