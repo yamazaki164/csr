@@ -56,7 +56,7 @@ func (this *Csr) SetValidations(v *revel.Validation) {
 	v.Match(this.Locality, regexp.MustCompile("^[a-zA-Z\\-_]+$")).Message("Locality not match")
 
 	v.Required(this.OrganizationalName).Message("OrganizationalName required")
-	v.Match(this.OrganizationalName, regexp.MustCompile("^[a-zA-Z0-9\\-_,\\. ]+$")).Message("OrganizationalName not match")
+	v.Match(this.OrganizationalName, regexp.MustCompile("^[a-zA-Z0-9\\-_,\\. ()]+$")).Message("OrganizationalName not match")
 
 	if len(this.OrganizationalUnit) > 0 {
 		v.Match(this.OrganizationalUnit, regexp.MustCompile("^[a-zA-Z0-9\\-_,\\. ]+$")).Message("OrganizationalUnit not match")

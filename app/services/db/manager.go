@@ -32,7 +32,7 @@ func NewManager() *Manager {
 	}
 
 	var err error
-	var db gorm.DB
+	var db *gorm.DB
 	db, err = gorm.Open(driver, spec)
 	if err != nil {
 		revel.ERROR.Fatal(err)
@@ -41,7 +41,7 @@ func NewManager() *Manager {
 	db.LogMode(revel.Config.BoolDefault("db.debug", false))
 
 	m := &Manager{
-		DB: &db,
+		DB: db,
 	}
 
 	return m
